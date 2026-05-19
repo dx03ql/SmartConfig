@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SmartConfig PC</string>
+    <string name="app_subtitle">Configurateur intelligent</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Accueil</string>
+    <string name="nav_config">Config</string>
+    <string name="nav_saved">Sauvegardés</string>
+    <string name="nav_profile">Profil</string>
+
+    <!-- Wizard steps -->
+    <string name="step_usage">Usage</string>
+    <string name="step_profile">Profil</string>
+    <string name="step_budget">Budget</string>
+    <string name="step_priorities">Priorités</string>
+    <string name="step_summary">Résumé</string>
+    <string name="step_format">Étape %1$d / %2$d</string>
+    <string name="wizard_title">Définissez votre besoin</string>
+    <string name="btn_back">Retour</string>
+    <string name="btn_next">Suivant</string>
+    <string name="btn_continue">Continuer</string>
+    <string name="btn_select_config">Sélectionner cette config</string>
+
+    <!-- Usage options -->
+    <string name="usage_gaming">Gaming</string>
+    <string name="usage_gaming_sub">FPS, AAA, 1440p</string>
+    <string name="usage_creative">Création</string>
+    <string name="usage_creative_sub">Vidéo, 3D, Render</string>
+    <string name="usage_office">Bureautique</string>
+    <string name="usage_office_sub">Office, Visio, Mail</string>
+    <string name="usage_dev">Dev / IA</string>
+    <string name="usage_dev_sub">IDE, LLM local, ML</string>
+
+    <!-- Diagnostic -->
+    <string name="diag_title">Analyse automatique</string>
+    <string name="diag_done">Terminé</string>
+    <string name="diag_cpu">Processeur</string>
+    <string name="diag_ram">RAM</string>
+    <string name="diag_gpu">Carte graphique</string>
+    <string name="diag_storage">Stockage</string>
+    <string name="diag_psu">Alimentation</string>
+    <string name="section_diag">Diagnostic système actuel</string>
+    <string name="section_config">Configurations optimisées</string>
+    <string name="section_assistant">Assistant de configuration</string>
+
+    <!-- Config tiers -->
+    <string name="tier_essential">Essentiel</string>
+    <string name="tier_performance">Performance</string>
+    <string name="badge_budget_tight">Budget serré</string>
+    <string name="badge_best_ratio">Meilleur ratio</string>
+    <string name="badge_recommended">✦ Recommandé pour vous</string>
+    <string name="compat_ok">Compatible avec votre carte mère B460M</string>
+    <string name="compat_perf">Compatibilité vérifiée · +140%% de perf. estimée</string>
+
+    <!-- Budget screen -->
+    <string name="budget_title">Votre budget</string>
+    <string name="budget_sub">Gaming · Usage principal sélectionné</string>
+    <string name="budget_header">Définissez votre enveloppe</string>
+    <string name="budget_sub_header">Pièces uniquement · hors périphériques</string>
+    <string name="budget_flexible">Budget flexible</string>
+    <string name="budget_flexible_sub">Accepter +15 %% si meilleur rapport</string>
+    <string name="budget_repartition">Répartition budget estimée</string>
+    <string name="budget_min">200 €</string>
+    <string name="budget_max">3000 €</string>
+    <string name="euro_symbol">€</string>
+
+    <!-- Preset names -->
+    <string name="preset_starter">Starter</string>
+    <string name="preset_starter_range">200 — 500 €</string>
+    <string name="preset_starter_tag">Bureautique</string>
+    <string name="preset_gaming">Gaming 1080p</string>
+    <string name="preset_gaming_range">600 — 1 000 €</string>
+    <string name="preset_gaming_tag">Recommandé</string>
+    <string name="preset_creator">Créateur</string>
+    <string name="preset_creator_range">1 000 — 1 800 €</string>
+    <string name="preset_creator_tag">Vidéo / 3D</string>
+    <string name="preset_pro">Pro / IA</string>
+    <string name="preset_pro_range">2 000 — 3 000 €</string>
+    <string name="preset_pro_tag">LLM local</string>
+    <!-- <string name="preset_pro_tag">LLM local</string> -->
+
+    <!-- <string name="preset_pro_tag">LLM local</string> -->
+
+
+    <!-- Budget labels -->
+<string name="budget_label_entry">Config entrée de gamme</string>
+<string name="budget_label_office">Config bureautique / casual</string>
+<string name="budget_label_perf">Configuration Performance recommandée</string>
+<string name="budget_label_creator">Configuration Créateur haut de gamme</string>
+<string name="budget_label_pro">Configuration Pro / IA</string>
+
+    <!-- Legend labels -->
+<string name="legend_gpu">GPU</string>
+<string name="legend_cpu">CPU</string>
+<string name="legend_ram">RAM</string>
+<string name="legend_storage">Stockage</string>
+<string name="legend_psu">Alimentation</string>
+
+    <!-- AI Insights -->
+<string name="insight_starter">En dessous de 500 €, on mise sur une config bureautique solide. GPU intégré ou entrée de gamme, idéal pour le travail et le web.</string>
+<string name="insight_gaming">Pour le gaming 1080p/1440p, cette fourchette est idéale. Vous pouvez viser une RTX 4060 Ti sans changer votre carte mère.</string>
+<string name="insight_creator">Fourchette créateur : prévoir un CPU puissant (Ryzen 7 / i7) et 32 Go RAM. La GPU est secondaire sauf pour rendu 3D.</string>
+<string name="insight_pro">Budget pro / IA : vous pouvez envisager une RTX 4090 ou une config multi-GPU pour faire tourner des LLM locaux confortablement.</string>
+<string name="ai_tip_main">Votre GTX 1060 est le goulot d\'étranglement principal. Avec un budget de 780 €, la RTX 4060 Ti vous offre le meilleur gain en 1080p/1440p gaming sans changer la carte mère.</string>
+
+    <!-- Notifications -->
+<string name="notifications">Notifications</string>
+<string name="cd_back">Retour</string>
+    </resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- Usage Selection Buttons -->
+    <Button android:id="@+id/btnGaming"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Gaming" />
+
+    <Button android:id="@+id/btnCreation"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Création" />
+
+    <Button android:id="@+id/btnOffice"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Bureautique" />
+
+    <Button android:id="@+id/btnDev"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Dev / IA" />
+
+    <!-- Navigation Buttons -->
+    <Button android:id="@+id/btnNext"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Suivant" />
+
+    <Button android:id="@+id/btnSelect"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Sélectionner" />
+
+</LinearLayout>

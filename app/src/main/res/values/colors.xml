@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand Colors -->
+    <color name="brand_dark">#1A1A2E</color>
+    <color name="brand_darker">#2A1A4E</color>
+    <color name="brand_mid">#2D2D4A</color>
+    <color name="accent_cyan">#6EE2F5</color>
+    <color name="accent_purple">#9F7AEA</color>
+    <color name="accent_cyan_alpha12">#1F6EE2F5</color>
+    <color name="accent_cyan_alpha18">#2E6EE2F5</color>
+
+    <!-- Status Colors -->
+    <color name="status_ok">#3DBD55</color>
+    <color name="status_warn">#E8922A</color>
+    <color name="status_bad">#DC3A3A</color>
+
+    <!-- Segment Bar Colors -->
+    <color name="seg_gpu">#6EE2F5</color>
+    <color name="seg_cpu">#9F7AEA</color>
+    <color name="seg_ram">#63C47A</color>
+    <color name="seg_storage">#E8922A</color>
+    <color name="seg_psu">#DC6B6B</color>
+
+    <!-- Tag Colors -->
+    <color name="tag_starter_bg">#EAF3DE</color>
+    <color name="tag_starter_text">#3B6D11</color>
+    <color name="tag_gaming_bg">#1F6EE2F5</color>
+    <color name="tag_gaming_text">#0F6E56</color>
+    <color name="tag_creator_bg">#FAEEDA</color>
+    <color name="tag_creator_text">#633806</color>
+    <color name="tag_pro_bg">#EEEDFE</color>
+    <color name="tag_pro_text">#3C3489</color>
+
+    <!-- Compat badge -->
+    <color name="compat_bg">#EAF9EC</color>
+    <color name="compat_text">#2D7A36</color>
+
+    <!-- Text Colors (Light theme) -->
+    <color name="text_primary">#111111</color>
+    <color name="text_secondary">#666666</color>
+    <color name="text_tertiary">#999999</color>
+    <color name="text_on_dark">#E8E8F0</color>
+    <color name="text_on_dark_sub">#8888AA</color>
+    <color name="text_on_dark_accent">#C8C8E0</color>
+
+    <!-- Backgrounds -->
+    <color name="bg_primary">#FFFFFF</color>
+    <color name="bg_secondary">#F5F5F5</color>
+    <color name="border_primary">#DDDDDD</color>
+    <color name="border_secondary">#CCCCCC</color>
+    <color name="border_tertiary">#EEEEEE</color>
+
+    <!-- Nav -->
+    <color name="nav_active_bg">#0D6EE2F5</color>
+
+    <!-- White -->
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+</resources>
