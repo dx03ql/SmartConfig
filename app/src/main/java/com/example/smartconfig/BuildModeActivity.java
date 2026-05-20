@@ -31,10 +31,25 @@ public class BuildModeActivity extends AppCompatActivity {
 
             boolean isGuest = getIntent().getBooleanExtra("isGuest", false);
 
-            Intent intent = new Intent(BuildModeActivity.this, AIQuestionnaireActivity.class);
-            intent.putExtra("budget", budget);
-            intent.putExtra("isGuest", isGuest);
-            startActivity(intent);
+            if (selectedMode.equals("scratch")) {
+                Intent intent = new Intent(BuildModeActivity.this, ScratchBuildActivity.class);
+                intent.putExtra("budget", budget);
+                intent.putExtra("isGuest", isGuest);
+                startActivity(intent);
+
+            } else if (selectedMode.equals("ai")) {
+                Intent intent = new Intent(BuildModeActivity.this, AIQuestionnaireActivity.class);
+                intent.putExtra("budget", budget);
+                intent.putExtra("isGuest", isGuest);
+                startActivity(intent);
+
+            } else {
+                // "modify" — template mode, implement later
+                Intent intent = new Intent(BuildModeActivity.this, AIQuestionnaireActivity.class);
+                intent.putExtra("budget", budget);
+                intent.putExtra("isGuest", isGuest);
+                startActivity(intent);
+            }
         });
     }
 

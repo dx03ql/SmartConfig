@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_card_rounded"
+    android:layout_marginBottom="10dp">
+
+    <!-- Header row: icon + name + badge -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="14dp">
+
+        <!-- Category icon -->
+        <TextView
+            android:id="@+id/tvPartRowIcon"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:background="@drawable/bg_dark_rounded"
+            android:layout_marginEnd="12dp" />
+
+        <!-- Category name -->
+        <TextView
+            android:id="@+id/tvPartRowName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="CPU"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-black" />
+
+        <!-- "Added" badge (shown when a part is selected) -->
+        <TextView
+            android:id="@+id/tvPartRowAdded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Added"
+            android:textColor="@color/accent"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif-medium"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:background="@drawable/bg_added_badge"
+            android:visibility="gone" />
+
+        <!-- "+" icon (shown when no part selected) -->
+        <TextView
+            android:id="@+id/tvPartRowPlus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:textColor="@color/text_muted2"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif-light" />
+
+    </LinearLayout>
+
+    <!-- Selected part preview (hidden when nothing selected) -->
+    <LinearLayout
+        android:id="@+id/layoutSelectedPreview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="64dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="12dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvSelectedPartName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_muted"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tvSelectedPartPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/accent"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-black"
+            android:paddingTop="2dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
