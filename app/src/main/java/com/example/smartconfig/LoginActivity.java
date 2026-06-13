@@ -1,64 +1,87 @@
 package com.example.smartconfig;
 
-import android.content.SharedPreferences;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText etEmail, etPassword;
     Button btnLogin;
     TextView txtForgot, txtRegister;
+    ProgressBar progressBar;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        etEmail    = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
-        btnLogin   = findViewById(R.id.btnLogin);
-        txtForgot  = findViewById(R.id.txtForgot);
+        mAuth = FirebaseAuth.getInstance();
+
+        etEmail     = findViewById(R.id.etEmail);
+        etPassword  = findViewById(R.id.etPassword);
+        btnLogin    = findViewById(R.id.btnLogin);
+        txtForgot   = findViewById(R.id.txtForgot);
         txtRegister = findViewById(R.id.txtRegister);
+        progressBar = findViewById(R.id.progressBar);
 
         btnLogin.setOnClickListener(v -> {
-            String email    = etEmail.getText().toString();
-            String password = etPassword.getText().toString();
+            String email    = etEmail.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-            } else {
-                // Save session
-                SharedPreferences prefs = getSharedPreferences("smartconfig_prefs", MODE_PRIVATE);
-                prefs.edit()
-                        .putBoolean("is_logged_in", true)
-                        .putString("user_email", email)
-                        .apply();
-
-                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-
-                // If launched from profile tab, return to the build screen
-                if (getIntent().getBooleanExtra("returnToScratch", false)) {
-                    setResult(RESULT_OK);
-                    finish();
-                } else {
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                }
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            setLoading(true);
+
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnSuccessListener(authResult -> {
+                        saveSession(email);
+                        setLoading(false);
+
+                        if (getIntent().getBooleanExtra("returnToScratch", false)) {
+                            setResult(RESULT_OK);
+                            finish();
+                        } else {
+                            startActivity(new Intent(this, BudgetActivity.class));
+                            finish();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        setLoading(false);
+                        Toast.makeText(this, "Login failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    });
         });
 
-        txtForgot.setOnClickListener(v ->
-                Toast.makeText(LoginActivity.this, "Forgot Password clicked", Toast.LENGTH_SHORT).show()
-        );
+        txtForgot.setOnClickListener(v -> {
+            String email = etEmail.getText().toString().trim();
+            if (email.isEmpty()) {
+                Toast.makeText(this, "Enter your email first", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            mAuth.sendPasswordResetEmail(email)
+                    .addOnSuccessListener(unused ->
+                            Toast.makeText(this, "Reset email sent!", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e ->
+                            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        });
 
         txtRegister.setOnClickListener(v ->
-                Toast.makeText(LoginActivity.this, "Register page coming soon", Toast.LENGTH_SHORT).show()
+                startActivity(new Intent(this, SignupActivity.class))
         );
 
         findViewById(R.id.btnGuest).setOnClickListener(v -> {
@@ -66,5 +89,18 @@ public class LoginActivity extends AppCompatActivity {
             intent.putExtra("isGuest", true);
             startActivity(intent);
         });
+    }
+
+    private void saveSession(String email) {
+        SharedPreferences prefs = getSharedPreferences("smartconfig_prefs", MODE_PRIVATE);
+        prefs.edit()
+                .putBoolean("is_logged_in", true)
+                .putString("user_email", email)
+                .apply();
+    }
+
+    private void setLoading(boolean loading) {
+        btnLogin.setEnabled(!loading);
+        progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
     }
 }

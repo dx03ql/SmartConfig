@@ -79,6 +79,15 @@
             android:backgroundTint="#6EE2F5"
             android:layout_marginTop="30dp"/>
 
+        <!-- PROGRESS BAR -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"/>
+
         <!-- DIVIDER -->
         <LinearLayout
             android:layout_width="match_parent"

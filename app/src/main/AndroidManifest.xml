@@ -71,7 +71,17 @@
             android:screenOrientation="portrait" />
 
 
-        <activity android:name=".GeneratingBuildActivity" />
-    </application>
+        <activity
+            android:name=".GeneratingBuildActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".AccountActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+
+            </application>
 
 </manifest>

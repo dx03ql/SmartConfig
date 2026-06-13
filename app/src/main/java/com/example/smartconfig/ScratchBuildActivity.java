@@ -1,7 +1,6 @@
 package com.example.smartconfig;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +18,7 @@ import java.util.Map;
 
 public class ScratchBuildActivity extends AppCompatActivity {
 
-    private static final int REQ_PARTS      = 100;
-    private static final int REQ_LOGIN      = 200; // login started from profile tab
+    private static final int REQ_PARTS = 100;
 
     private int budget;
     private boolean isGuest;
@@ -64,42 +62,31 @@ public class ScratchBuildActivity extends AppCompatActivity {
             // Already here — do nothing
         });
 
-        findViewById(R.id.navCompare).setOnClickListener(v -> {
-            Toast.makeText(this, "Compare — coming soon", Toast.LENGTH_SHORT).show();
-        });
+        findViewById(R.id.navCompare).setOnClickListener(v ->
+                Toast.makeText(this, "Compare — coming soon", Toast.LENGTH_SHORT).show()
+        );
 
-        findViewById(R.id.navCommunity).setOnClickListener(v -> {
-            Toast.makeText(this, "Community — coming soon", Toast.LENGTH_SHORT).show();
-        });
+        findViewById(R.id.navCommunity).setOnClickListener(v ->
+                Toast.makeText(this, "Community — coming soon", Toast.LENGTH_SHORT).show()
+        );
 
-        findViewById(R.id.navSettings).setOnClickListener(v -> {
-            Toast.makeText(this, "Settings — coming soon", Toast.LENGTH_SHORT).show();
-        });
+        // Settings and Profile are now merged into AccountActivity
+        findViewById(R.id.navSettings).setOnClickListener(v ->
+                startActivity(new Intent(this, AccountActivity.class))
+        );
 
-        findViewById(R.id.navProfile).setOnClickListener(v -> handleProfileTab());
+        findViewById(R.id.navProfile).setOnClickListener(v ->
+                startActivity(new Intent(this, AccountActivity.class))
+        );
 
         renderPartRows();
         updateStats();
     }
 
-    private void handleProfileTab() {
-        SharedPreferences prefs = getSharedPreferences("smartconfig_prefs", MODE_PRIVATE);
-        boolean loggedIn = prefs.getBoolean("is_logged_in", false);
-
-        if (loggedIn) {
-            // Go to profile page (create ProfileActivity later)
-            Toast.makeText(this, "Profile — coming soon", Toast.LENGTH_SHORT).show();
-        } else {
-            // Launch login and wait for result so we come back here
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.putExtra("returnToScratch", true);
-            startActivityForResult(intent, REQ_LOGIN);
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
+        // Refresh parts and stats every time we come back (e.g. from PartsListActivity)
         renderPartRows();
         updateStats();
     }
@@ -179,21 +166,17 @@ public class ScratchBuildActivity extends AppCompatActivity {
             renderPartRows();
             updateStats();
         }
-
-        // Login completed — user is back, builds are untouched (they were never cleared)
-        if (requestCode == REQ_LOGIN && resultCode == RESULT_OK) {
-            isGuest = false;
-            Toast.makeText(this, "Welcome back! Your build is saved.", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void updateStats() {
         double total = 0; int watts = 0, score = 0, count = 0;
         for (Part p : selectedParts.values()) {
-            total += p.price; watts += p.watts;
+            total += p.price;
+            watts += p.watts;
             if (p.score > score) score = p.score;
             count++;
         }
+
         tvTotalPrice.setText(String.format("€%.2f", total));
         tvWattage.setText(watts + "W");
         tvScore.setText(score > 0 ? String.valueOf(score) : "N/A");
@@ -230,9 +213,13 @@ public class ScratchBuildActivity extends AppCompatActivity {
         public String id, name;
         public double price;
         public int watts, score;
+
         public Part(String id, String name, double price, int watts, int score) {
-            this.id = id; this.name = name; this.price = price;
-            this.watts = watts; this.score = score;
+            this.id    = id;
+            this.name  = name;
+            this.price = price;
+            this.watts = watts;
+            this.score = score;
         }
     }
 }
