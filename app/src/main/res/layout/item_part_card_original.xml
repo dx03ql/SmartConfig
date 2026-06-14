@@ -13,24 +13,13 @@
         android:layout_height="64dp"
         android:layout_marginEnd="14dp">
 
-        <!-- Dark background -->
+        <!-- Dark background circle -->
         <View
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:background="@drawable/bg_dark_rounded" />
 
-        <!-- Real component photo (shown when the part has one) -->
-        <ImageView
-            android:id="@+id/imgPartThumb"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="6dp"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:contentDescription="@null"
-            android:visibility="gone" />
-
-        <!-- Category emoji placeholder (fallback when no photo) -->
+        <!-- Category emoji placeholder -->
         <TextView
             android:id="@+id/tvPartIcon"
             android:layout_width="match_parent"

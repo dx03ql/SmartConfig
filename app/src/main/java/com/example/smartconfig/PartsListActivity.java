@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -107,6 +108,18 @@ public class PartsListActivity extends AppCompatActivity {
             TextView tvSponsored = item.findViewById(R.id.tvSponsored);
             TextView tvAdd       = item.findViewById(R.id.tvAddBtn);
             TextView tv3D        = item.findViewById(R.id.tv3DBadge);
+            ImageView imgThumb   = item.findViewById(R.id.imgPartThumb);
+            TextView tvIcon      = item.findViewById(R.id.tvPartIcon);
+
+            // Real photo when the part has one; otherwise fall back to the emoji.
+            if (p.imageRes != 0 && p.imageRes != PartsCatalog.PLACEHOLDER_IMG) {
+                imgThumb.setImageResource(p.imageRes);
+                imgThumb.setVisibility(View.VISIBLE);
+                tvIcon.setVisibility(View.GONE);
+            } else {
+                imgThumb.setVisibility(View.GONE);
+                tvIcon.setVisibility(View.VISIBLE);
+            }
 
             // Show manufacturer + name together when available
             String displayName = (p.manufacturer != null && !p.manufacturer.equals("—"))
