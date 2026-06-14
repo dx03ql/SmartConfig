@@ -1,4 +1,4 @@
-package com.example.smartconfig; // ← Replace with your actual package name
+package com.example.smartconfig;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,25 +19,22 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * AIQuestionnaireActivity
+ * AIQuestionnaireActivity  (UI label: "Smart Generated Build")
  * ─────────────────────────────────────────────────────────────────────────
  * Receives:  budget (int), isGuest (boolean)  from BuildModeActivity
- * Sends:     budget (int), isGuest (boolean), answersJson (String)
+ * Sends:     budget (int), isGuest (boolean), buildMode ("smart"),
+ *            profileJson (String — the computed BuildProfile)
  *            → GeneratingBuildActivity
  *
- * UX pattern: ViewPager2 (non-swipeable by user — navigation driven by
- * Back / Next buttons to prevent accidental swipes losing answers).
- * Each page is inflated from fragment_question_item.xml and populated
- * with CardView option tiles from item_option_card.xml.
+ * The 10 answers are fed into BuildProfile.fromAnswers(...) which produces a
+ * rule-based budget allocation + preference tags. No AI involved — the name
+ * reflects that with "Smart" instead of "AI".
  * ─────────────────────────────────────────────────────────────────────────
  */
 public class AIQuestionnaireActivity extends AppCompatActivity {
@@ -60,13 +57,20 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
     private List<Question> questions;
     private QuestionPagerAdapter adapter;
 
+    // Answer keys — index aligned with the questions list
+    private static final String[] ANSWER_KEYS = {
+            "primary_use", "gaming_type", "creative_work",
+            "portability", "aesthetics", "rgb",
+            "multitasking", "storage_needs", "upgrade_plans", "noise_preference"
+    };
+
     // ══════════════════════════════════════════════════════════════════════
     //  Data model
     // ══════════════════════════════════════════════════════════════════════
     static class Option {
         String emoji;
         String label;
-        String value; // machine-readable key sent to AI
+        String value;
 
         Option(String emoji, String label, String value) {
             this.emoji = emoji;
@@ -97,14 +101,11 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ai_questionnaire);
 
-        // Read incoming extras
         budget  = getIntent().getIntExtra("budget", 500);
         isGuest = getIntent().getBooleanExtra("isGuest", false);
 
-        // Build question bank
         questions = buildQuestions();
 
-        // Bind views
         viewPager    = findViewById(R.id.viewPagerQuestions);
         progressBar  = findViewById(R.id.progressBar);
         tvStepLabel  = findViewById(R.id.tvStepLabel);
@@ -112,17 +113,12 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
         btnPrevious  = findViewById(R.id.btnPrevious);
         btnNext      = findViewById(R.id.btnNext);
 
-        // Disable swiping — navigation is controlled by buttons only
         viewPager.setUserInputEnabled(false);
 
-        // Set up adapter
         adapter = new QuestionPagerAdapter(questions, answers);
         viewPager.setAdapter(adapter);
-
-        // Smooth page transitions
         viewPager.setPageTransformer(new SlideScalePageTransformer());
 
-        // Update header on page change
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -130,10 +126,8 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
             }
         });
 
-        // Initial header state
         updateHeader(0);
 
-        // ── Button listeners ──────────────────────────────────────────────
         btnPrevious.setOnClickListener(v -> goToPreviousPage());
         btnNext.setOnClickListener(v -> goToNextPage());
         findViewById(R.id.btnBack).setOnClickListener(v -> {
@@ -151,12 +145,10 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
     private void goToNextPage() {
         int current = viewPager.getCurrentItem();
 
-        // Validate: user must pick an answer before advancing
         if (answers[current] == null || answers[current].isEmpty()) {
             Toast.makeText(this,
                     "Please pick an option to continue ✌️",
                     Toast.LENGTH_SHORT).show();
-            // Shake the ViewPager to hint the user
             viewPager.startAnimation(
                     AnimationUtils.loadAnimation(this, R.anim.shake));
             return;
@@ -165,7 +157,6 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
         if (current < TOTAL_QUESTIONS - 1) {
             viewPager.setCurrentItem(current + 1, true);
         } else {
-            // Last question — generate build
             launchGeneratingBuild();
         }
     }
@@ -186,10 +177,8 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
         tvStepBadge.setText(String.valueOf(step));
         progressBar.setProgress(step);
 
-        // Show / hide Previous button
         btnPrevious.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
 
-        // Change Next button label on last question
         if (position == TOTAL_QUESTIONS - 1) {
             btnNext.setText("Generate My Build ✨");
         } else {
@@ -198,29 +187,23 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
     }
 
     // ══════════════════════════════════════════════════════════════════════
-    //  Launch next screen
+    //  Launch next screen — compute the BuildProfile from answers
     // ══════════════════════════════════════════════════════════════════════
     private void launchGeneratingBuild() {
-        // Collect answers into JSON
-        JSONObject answersJson = new JSONObject();
-        String[] keys = {
-                "primary_use", "gaming_type", "creative_work",
-                "portability", "aesthetics", "rgb",
-                "multitasking", "storage_needs", "upgrade_plans", "noise_preference"
-        };
-        try {
-            for (int i = 0; i < TOTAL_QUESTIONS; i++) {
-                answersJson.put(keys[i], answers[i] != null ? answers[i] : "not_specified");
-            }
-            answersJson.put("budget", budget);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        // Map answer keys → chosen values
+        Map<String, String> answerMap = new HashMap<>();
+        for (int i = 0; i < TOTAL_QUESTIONS; i++) {
+            answerMap.put(ANSWER_KEYS[i], answers[i] != null ? answers[i] : "not_specified");
         }
 
-        Intent intent = new Intent(this, MainActivity.class);
+        // Run the smart scoring engine
+        BuildProfile profile = BuildProfile.fromAnswers(budget, answerMap);
+
+        Intent intent = new Intent(this, GeneratingBuildActivity.class);
         intent.putExtra("budget",      budget);
         intent.putExtra("isGuest",     isGuest);
-        intent.putExtra("answersJson", answersJson.toString());
+        intent.putExtra("buildMode",   "smart");
+        intent.putExtra("profileJson", profile.toJson().toString());
         startActivity(intent);
     }
 
@@ -230,7 +213,6 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
     private List<Question> buildQuestions() {
         List<Question> list = new ArrayList<>();
 
-        // Q1 — Primary use
         list.add(new Question(
                 "🖥️",
                 "What will you mainly use your PC for?",
@@ -243,7 +225,6 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
                 )
         ));
 
-        // Q2 — Gaming type (shown to everyone; AI ignores if not a gamer)
         list.add(new Question(
                 "🎮",
                 "If you play games, which style fits you?",
@@ -256,11 +237,10 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
                 )
         ));
 
-        // Q3 — Creative work
         list.add(new Question(
                 "🎬",
                 "Do you do any creative work on your PC?",
-                "Select everything that sounds like something you'd do.",
+                "Select the one that sounds most like you.",
                 options(
                         new Option("📹", "Video editing or recording YouTube / TikTok content",       "video_editing"),
                         new Option("🎵", "Music production or audio recording",                       "music_production"),
@@ -269,7 +249,6 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
                 )
         ));
 
-        // Q4 — Portability / form factor
         list.add(new Question(
                 "🏠",
                 "Where will your PC mostly live?",
@@ -282,7 +261,6 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
                 )
         ));
 
-        // Q5 — Aesthetics
         list.add(new Question(
                 "✨",
                 "What should your PC look like?",
@@ -295,7 +273,6 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
                 )
         ));
 
-        // Q6 — RGB
         list.add(new Question(
                 "💡",
                 "How do you feel about colorful LED lighting (RGB)?",
@@ -308,7 +285,6 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
                 )
         ));
 
-        // Q7 — Multitasking
         list.add(new Question(
                 "📋",
                 "How many things do you have open at once?",
@@ -321,7 +297,6 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
                 )
         ));
 
-        // Q8 — Storage
         list.add(new Question(
                 "💾",
                 "How much stuff do you need to store on your PC?",
@@ -334,7 +309,6 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
                 )
         ));
 
-        // Q9 — Future upgrading
         list.add(new Question(
                 "🔧",
                 "Do you want to be able to upgrade your PC later?",
@@ -347,7 +321,6 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
                 )
         ));
 
-        // Q10 — Noise / silence
         list.add(new Question(
                 "🔊",
                 "How important is a quiet PC to you?",
@@ -363,7 +336,6 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
         return list;
     }
 
-    /** Helper to build an option list cleanly */
     private List<Option> options(Option... opts) {
         List<Option> list = new ArrayList<>();
         for (Option o : opts) list.add(o);
@@ -401,7 +373,6 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
         @Override
         public int getItemCount() { return questions.size(); }
 
-        // ── ViewHolder ────────────────────────────────────────────────────
         static class QuestionViewHolder extends RecyclerView.ViewHolder {
 
             TextView tvQuestionEmoji;
@@ -409,7 +380,6 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
             TextView tvQuestionSubtitle;
             LinearLayout llOptionsContainer;
 
-            // Track inflated option cards for visual toggling
             List<View> optionViews = new ArrayList<>();
 
             QuestionViewHolder(@NonNull View itemView) {
@@ -425,15 +395,12 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
                 tvQuestionText.setText(q.text);
                 tvQuestionSubtitle.setText(q.subtitle);
 
-                // Remove previously bound option views
                 llOptionsContainer.removeAllViews();
                 optionViews.clear();
 
                 for (int i = 0; i < q.options.size(); i++) {
                     Option opt = q.options.get(i);
-                    final int optIndex = i;
 
-                    // Inflate option card
                     View optView = LayoutInflater.from(itemView.getContext())
                             .inflate(R.layout.item_option_card, llOptionsContainer, false);
 
@@ -445,16 +412,12 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
                     tvEmoji.setText(opt.emoji);
                     tvLabel.setText(opt.label);
 
-                    // Restore selected state if user already answered this question
                     boolean isSelected = opt.value.equals(answers[questionIndex]);
                     applySelectionState(card, tvLabel, dot, isSelected);
 
-                    // Click handler
                     optView.setOnClickListener(v -> {
-                        // Save answer
                         answers[questionIndex] = opt.value;
 
-                        // Update visuals for ALL options in this question
                         for (int j = 0; j < optionViews.size(); j++) {
                             View sibling = optionViews.get(j);
                             Option sibOpt = q.options.get(j);
@@ -473,17 +436,8 @@ public class AIQuestionnaireActivity extends AppCompatActivity {
                 }
             }
 
-            /**
-             * Applies or removes the selected visual state to an option card.
-             * Selected:   accent border (#6EE2F5), label full white, filled dot
-             * Unselected: subtle border, muted label, empty dot
-             */
             private void applySelectionState(CardView card, TextView label, View dot, boolean selected) {
                 if (selected) {
-                    // Accent stroke + tinted background
-                    card.setCardBackgroundColor(0xFF162233); // slightly lighter than #1E293B
-                    // CardView doesn't support strokeColor directly in code without
-                    // MaterialCardView — use a drawable background swap instead:
                     card.setBackground(
                             card.getContext().getResources().getDrawable(
                                     R.drawable.bg_option_selected, null));

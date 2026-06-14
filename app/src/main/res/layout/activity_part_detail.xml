@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0F172A">
+
+    <!-- TOP BAR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="16dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="#CBD5E1"
+            android:contentDescription="Back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Part Details"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E293B" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Photo -->
+            <ImageView
+                android:id="@+id/imgPart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/bg_part_placeholder"
+                android:contentDescription="Part photo" />
+
+            <!-- Category chip -->
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PROCESSOR"
+                android:textColor="#6EE2F5"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1"
+                android:background="#1E293B"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:layout_marginTop="18dp" />
+
+            <!-- Name -->
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Part name"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp"
+                android:lineSpacingExtra="2dp" />
+
+            <!-- Manufacturer -->
+            <TextView
+                android:id="@+id/tvManufacturer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manufacturer"
+                android:textColor="#94A3B8"
+                android:textSize="15sp"
+                android:layout_marginTop="4dp" />
+
+            <!-- Price -->
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="€0"
+                android:textColor="#22C55E"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:layout_marginTop="14dp" />
+
+            <!-- SPECS section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SPECIFICATIONS"
+                android:textColor="#64748B"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/llSpecs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#1E293B"
+                android:padding="16dp" />
+
+            <!-- STORES section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WHERE TO BUY"
+                android:textColor="#64748B"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btnAmazon"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Search on Amazon"
+                android:textAllCaps="false"
+                android:textColor="#0F172A"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:backgroundTint="#6EE2F5"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/btnNewegg"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Search on Newegg"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:backgroundTint="#1E293B"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/btnPcpp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Find on PCPartPicker"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:backgroundTint="#1E293B" />
+
+            <!-- Price history placeholder note -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📈 Price history will appear here once price tracking is connected."
+                android:textColor="#64748B"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:background="#1E293B"
+                android:padding="16dp"
+                android:layout_marginTop="24dp"
+                android:lineSpacingExtra="2dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

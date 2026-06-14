@@ -58,11 +58,12 @@
             android:layout_marginEnd="10dp" />
 
         <ImageButton
+            android:id="@+id/btnSaveBuild"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_share"
-            android:contentDescription="Export build" />
+            android:contentDescription="Save build" />
 
     </LinearLayout>
 
@@ -103,27 +104,25 @@
                 android:textSize="12sp"
                 android:gravity="center"
                 android:paddingTop="4dp"
-                android:paddingBottom="12dp" />
+                android:paddingBottom="14dp" />
 
-            <!-- Stats 2x2 grid -->
-            <GridLayout
+            <!-- Row: Cost + Power side by side -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:rowCount="2"
+                android:orientation="horizontal"
                 android:paddingHorizontal="16dp"
-                android:paddingBottom="12dp"
-                android:useDefaultMargins="false">
+                android:paddingBottom="10dp">
 
-                <!-- Price -->
+                <!-- Cost -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:background="@drawable/bg_card_rounded"
                     android:padding="14dp"
-                    android:layout_margin="5dp">
+                    android:layout_marginEnd="5dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -152,46 +151,15 @@
 
                 </LinearLayout>
 
-                <!-- Compatibility -->
+                <!-- Power draw -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:background="@drawable/bg_card_rounded"
                     android:padding="14dp"
-                    android:layout_margin="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="✓  Compatible"
-                        android:textColor="@color/green_price"
-                        android:textSize="12sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="5dp"
-                        android:background="@drawable/bg_compat_badge" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Compatibility"
-                        android:textColor="@color/text_dim"
-                        android:textSize="11sp"
-                        android:paddingTop="8dp" />
-
-                </LinearLayout>
-
-                <!-- Wattage -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_card_rounded"
-                    android:padding="14dp"
-                    android:layout_margin="5dp">
+                    android:layout_marginStart="5dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -219,45 +187,61 @@
 
                 </LinearLayout>
 
-                <!-- 3DMark -->
+            </LinearLayout>
+
+            <!-- Full-width Compatibility panel -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/bg_card_rounded"
+                android:padding="16dp">
+
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_card_rounded"
-                    android:padding="14dp"
-                    android:layout_margin="5dp">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="3DMARK"
-                        android:textColor="@color/accent"
-                        android:textSize="13sp"
+                        android:layout_weight="1"
+                        android:text="Compatibility"
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp"
                         android:fontFamily="sans-serif-black" />
 
                     <TextView
-                        android:id="@+id/tv3DMarkScore"
+                        android:id="@+id/tvCompatPercent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="N/A"
-                        android:textColor="@color/amber"
-                        android:textSize="16sp"
-                        android:fontFamily="sans-serif-black"
-                        android:paddingTop="4dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Perf. score"
-                        android:textColor="@color/text_dim"
-                        android:textSize="11sp"
-                        android:paddingTop="2dp" />
+                        android:text="—"
+                        android:textColor="@color/text_muted"
+                        android:textSize="22sp"
+                        android:fontFamily="sans-serif-black" />
 
                 </LinearLayout>
 
-            </GridLayout>
+                <TextView
+                    android:id="@+id/tvCompatStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add parts to check compatibility"
+                    android:textColor="@color/text_dim"
+                    android:textSize="12sp"
+                    android:paddingTop="2dp" />
+
+                <!-- Per-part compatibility rows injected here -->
+                <LinearLayout
+                    android:id="@+id/llCompatContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp" />
+
+            </LinearLayout>
 
             <!-- Section label -->
             <TextView
@@ -269,7 +253,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:letterSpacing="0.08"
                 android:paddingHorizontal="16dp"
-                android:paddingTop="8dp"
+                android:paddingTop="18dp"
                 android:paddingBottom="6dp" />
 
             <!-- Dynamic part rows injected here -->

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -70,7 +71,6 @@
             android:exported="false"
             android:screenOrientation="portrait" />
 
-
         <activity
             android:name=".GeneratingBuildActivity"
             android:exported="false"
@@ -81,7 +81,11 @@
             android:exported="false"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".PartDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
-            </application>
+    </application>
 
 </manifest>

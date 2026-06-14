@@ -35,9 +35,9 @@
     <color name="compat_bg">#EAF9EC</color>
     <color name="compat_text">#2D7A36</color>
 
-    <!-- Text Colors (Light theme) -->
-    <color name="text_primary">#111111</color>
-    <color name="text_secondary">#666666</color>
+    <!-- Text Colors (now light, for the dark theme) -->
+    <color name="text_primary">#F1F5F9</color>
+    <color name="text_secondary">#CBD5E1</color>
     <color name="text_tertiary">#999999</color>
     <color name="text_on_dark">#E8E8F0</color>
     <color name="text_on_dark_sub">#8888AA</color>
