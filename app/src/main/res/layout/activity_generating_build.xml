@@ -25,7 +25,7 @@
                 android:layout_height="40dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_arrow_back"
-                android:tint="#CBD5E1"
+                android:tint="@color/white"
                 android:contentDescription="Back" />
 
             <TextView

@@ -20,7 +20,7 @@
             android:layout_height="40dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_arrow_back"
-            android:tint="#CBD5E1"
+            android:tint="@color/white"
             android:contentDescription="Back" />
 
         <TextView
@@ -52,8 +52,10 @@
             <ImageView
                 android:id="@+id/imgPart"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
+                android:layout_height="220dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:padding="16dp"
                 android:background="@drawable/bg_part_placeholder"
                 android:contentDescription="Part photo" />
 
@@ -171,19 +173,6 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:backgroundTint="#1E293B" />
-
-            <!-- Price history placeholder note -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="📈 Price history will appear here once price tracking is connected."
-                android:textColor="#64748B"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:background="#1E293B"
-                android:padding="16dp"
-                android:layout_marginTop="24dp"
-                android:lineSpacingExtra="2dp" />
 
         </LinearLayout>
     </ScrollView>

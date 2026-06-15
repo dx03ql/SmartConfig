@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+        android:theme="@style/Theme.SmartConfig">
 
         <!-- 1. Landing Page (App entry point) -->
         <activity
@@ -63,6 +63,11 @@
 
         <activity
             android:name=".ScratchBuildActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".BuildsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

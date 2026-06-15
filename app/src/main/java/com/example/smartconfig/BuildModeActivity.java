@@ -6,7 +6,7 @@ import android.widget.RadioButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class BuildModeActivity extends AppCompatActivity {
+public class BuildModeActivity extends BaseActivity {
 
     private RadioButton radioAI, radioScratch;
     private String selectedMode = "ai"; // default

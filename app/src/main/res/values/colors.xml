@@ -69,6 +69,7 @@
     <color name="accent">#FF6D00</color>
     <color name="bg_card">#1E1E2E</color>
     <color name="bg_dark">#12121A</color>
+    <color name="app_bar_dark">#0F172A</color>
     <color name="border">#2A2A3D</color>
     <color name="text_muted">#9E9E9E</color>
     <color name="text_muted2">#757575</color>

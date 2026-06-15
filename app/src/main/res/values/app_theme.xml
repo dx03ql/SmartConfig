@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App theme: same as before but with the action bar blended into the
+         dark app background (no grey, no shadow line). -->
+    <style name="Theme.SmartConfig" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/app_bar_dark</item>
+        <item name="colorPrimaryDark">@color/app_bar_dark</item>
+        <item name="colorAccent">@color/accent_cyan</item>
+        <item name="android:statusBarColor">@color/app_bar_dark</item>
+        <item name="actionBarStyle">@style/SmartConfig.ActionBar</item>
+    </style>
+
+    <!-- Flat action bar that matches the app background. -->
+    <style name="SmartConfig.ActionBar" parent="Widget.AppCompat.ActionBar.Solid">
+        <item name="background">@color/app_bar_dark</item>
+        <item name="elevation">0dp</item>
+        <item name="titleTextStyle">@style/SmartConfig.ActionBar.Title</item>
+    </style>
+
+    <style name="SmartConfig.ActionBar.Title"
+        parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+</resources>

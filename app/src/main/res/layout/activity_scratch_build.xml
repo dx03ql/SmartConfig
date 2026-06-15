@@ -21,6 +21,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back"
+            android:tint="@color/white"
             android:contentDescription="Back" />
 
         <LinearLayout
@@ -32,6 +33,7 @@
             android:layout_marginHorizontal="8dp">
 
             <TextView
+                android:id="@+id/btnSwitchBuild"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="⊞  Switch Build  ▾"
@@ -56,14 +58,6 @@
             android:fontFamily="sans-serif-black"
             android:background="@drawable/bg_accent_circle"
             android:layout_marginEnd="10dp" />
-
-        <ImageButton
-            android:id="@+id/btnSaveBuild"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_share"
-            android:contentDescription="Save build" />
 
     </LinearLayout>
 
@@ -310,24 +304,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/navCompare"
+            android:id="@+id/navBuilds"
             android:layout_width="0dp" android:layout_height="match_parent"
             android:layout_weight="1" android:orientation="vertical" android:gravity="center">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="🖥" android:textSize="20sp" android:gravity="center" android:layout_gravity="center"/>
+                android:text="📋" android:textSize="20sp" android:gravity="center" android:layout_gravity="center"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Compare" android:textColor="@color/text_muted" android:textSize="10sp"
-                android:gravity="center" android:layout_gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/navCommunity"
-            android:layout_width="0dp" android:layout_height="match_parent"
-            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="👥" android:textSize="20sp" android:gravity="center" android:layout_gravity="center"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Community" android:textColor="@color/text_muted" android:textSize="10sp"
+                android:text="Builds" android:textColor="@color/text_muted" android:textSize="10sp"
                 android:gravity="center" android:layout_gravity="center"/>
         </LinearLayout>
 

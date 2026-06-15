@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class BudgetActivity extends AppCompatActivity {
+public class BudgetActivity extends BaseActivity {
 
     private TextView tvBudgetDisplay;
     private SeekBar seekBarBudget;
@@ -22,10 +22,13 @@ public class BudgetActivity extends AppCompatActivity {
         tvBudgetDisplay = findViewById(R.id.tvBudgetDisplay);
         seekBarBudget = findViewById(R.id.seekBarBudget);
 
+        // Show the starting value so the number matches the slider position.
+        tvBudgetDisplay.setText("€" + budgetValues[seekBarBudget.getProgress()]);
+
         seekBarBudget.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                tvBudgetDisplay.setText("$" + budgetValues[progress]);
+                tvBudgetDisplay.setText("€" + budgetValues[progress]);
             }
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
@@ -33,13 +36,13 @@ public class BudgetActivity extends AppCompatActivity {
 
         // Quick-select cards
         int[] cardIds = {R.id.cardBudgetEntry, R.id.cardBudgetMid, R.id.cardBudgetHigh, R.id.cardBudgetEnthusiast};
-        int[] seekPositions = {2, 5, 7, 9}; // maps to $400, $750, $1500, $5000
+        int[] seekPositions = {2, 5, 7, 9}; // maps to €400, €750, €1500, €5000
 
         for (int i = 0; i < cardIds.length; i++) {
             final int pos = seekPositions[i];
             findViewById(cardIds[i]).setOnClickListener(v -> {
                 seekBarBudget.setProgress(pos);
-                tvBudgetDisplay.setText("$" + budgetValues[pos]);
+                tvBudgetDisplay.setText("€" + budgetValues[pos]);
             });
         }
 
@@ -49,7 +52,5 @@ public class BudgetActivity extends AppCompatActivity {
             intent.putExtra("budget", selectedBudget);
             startActivity(intent);
         });
-
-
     }
 }

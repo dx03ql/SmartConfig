@@ -314,6 +314,12 @@ public class GeneratingBuildActivity extends AppCompatActivity {
             }
             BuildsRepository.save(name, json.toString(), count, total, buildMode);
             Toast.makeText(this, "✅ Build saved!", Toast.LENGTH_SHORT).show();
+
+            // Smart builds: take the user straight to "My Builds" after saving.
+            if ("smart".equalsIgnoreCase(buildMode)) {
+                startActivity(new android.content.Intent(this, BuildsActivity.class));
+                finish();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "Couldn't save the build.", Toast.LENGTH_SHORT).show();

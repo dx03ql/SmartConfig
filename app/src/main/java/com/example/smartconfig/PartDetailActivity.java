@@ -23,7 +23,6 @@ import java.util.Map;
  * ─────────────────────────────────────────────────────────────────────────
  * Receives a partId, looks it up in PartsCatalog, and shows full details:
  * photo, name, manufacturer, price, spec list, and store search buttons.
- * (Price-history chart is intentionally deferred until price tracking exists.)
  * ─────────────────────────────────────────────────────────────────────────
  */
 public class PartDetailActivity extends AppCompatActivity {
@@ -47,7 +46,7 @@ public class PartDetailActivity extends AppCompatActivity {
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
         String partId = getIntent().getStringExtra("partId");
-        PartsCatalog.Part part = partId != null ? PartsCatalog.findById(partId) : null;
+        PartsCatalog.Part part = partId != null ? PartsRepository.findById(partId) : null;
 
         if (part == null) {
             Toast.makeText(this, "Part not found.", Toast.LENGTH_SHORT).show();

@@ -55,7 +55,7 @@
                 android:id="@+id/tvBudgetDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$500"
+                android:text="€400"
                 android:textColor="#6EE2F5"
                 android:textSize="48sp"
                 android:textStyle="bold"
@@ -81,7 +81,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="$200"
+                    android:text="€200"
                     android:textColor="#64748B"
                     android:textSize="12sp"/>
 
@@ -89,7 +89,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="$5000+"
+                    android:text="€5000+"
                     android:textColor="#64748B"
                     android:textSize="12sp"
                     android:gravity="end"/>
@@ -147,7 +147,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$200–$500"
+                android:text="€200–€500"
                 android:textColor="#6EE2F5"
                 android:textSize="15sp"
                 android:textStyle="bold"/>
@@ -192,7 +192,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$500–$1000"
+                android:text="€500–€1000"
                 android:textColor="#6EE2F5"
                 android:textSize="15sp"
                 android:textStyle="bold"/>
@@ -237,7 +237,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$1000–$2000"
+                android:text="€1000–€2000"
                 android:textColor="#6EE2F5"
                 android:textSize="15sp"
                 android:textStyle="bold"/>
@@ -282,7 +282,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$2000+"
+                android:text="€2000+"
                 android:textColor="#6EE2F5"
                 android:textSize="15sp"
                 android:textStyle="bold"/>

@@ -36,6 +36,10 @@ public class ScratchBuildActivity extends AppCompatActivity {
     private int budget;
     private boolean isGuest;
 
+    // Edit mode: set when a saved scratch build is opened from the Builds tab.
+    private String editBuildId = null;
+    private String editBuildName = null;
+
     private final Map<String, PartsCatalog.Part> selectedParts = new HashMap<>();
 
     private TextView tvTotalPrice, tvWattage, tvBadgeCount, tvLastUpdated;
@@ -61,6 +65,12 @@ public class ScratchBuildActivity extends AppCompatActivity {
         budget  = getIntent().getIntExtra("budget", 500);
         isGuest = getIntent().getBooleanExtra("isGuest", false);
 
+        // Editing an existing scratch build?
+        editBuildId   = getIntent().getStringExtra("editBuildId");
+        editBuildName = getIntent().getStringExtra("editBuildName");
+        String preloadJson = getIntent().getStringExtra("partsJson");
+        if (preloadJson != null) loadPartsFromJson(preloadJson);
+
         tvTotalPrice      = findViewById(R.id.tvTotalPrice);
         tvWattage         = findViewById(R.id.tvWattage);
         tvBadgeCount      = findViewById(R.id.tvBadgeCount);
@@ -71,14 +81,19 @@ public class ScratchBuildActivity extends AppCompatActivity {
         llCompatContainer = findViewById(R.id.llCompatContainer);
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
-        findViewById(R.id.btnFinalizeBuild).setOnClickListener(v -> finalizeBuild());
-        findViewById(R.id.btnSaveBuild).setOnClickListener(v -> showSaveDialog());
+        findViewById(R.id.btnFinalizeBuild).setOnClickListener(v -> {
+            if (editBuildId != null) showSaveDialog();   // editing → save changes
+            else finalizeBuild();                        // new build → generate summary
+        });
+        if (editBuildId != null) {
+            ((android.widget.Button) findViewById(R.id.btnFinalizeBuild)).setText("Save Changes");
+        }
+        findViewById(R.id.btnSwitchBuild).setOnClickListener(v ->
+                startActivity(new Intent(this, BudgetActivity.class)));
 
         findViewById(R.id.navBuild).setOnClickListener(v -> { /* already here */ });
-        findViewById(R.id.navCompare).setOnClickListener(v ->
-                Toast.makeText(this, "Compare — coming soon", Toast.LENGTH_SHORT).show());
-        findViewById(R.id.navCommunity).setOnClickListener(v ->
-                Toast.makeText(this, "Community — coming soon", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.navBuilds).setOnClickListener(v ->
+                startActivity(new Intent(this, BuildsActivity.class)));
         findViewById(R.id.navSettings).setOnClickListener(v ->
                 startActivity(new Intent(this, AccountActivity.class)));
         findViewById(R.id.navProfile).setOnClickListener(v ->
@@ -356,21 +371,36 @@ public class ScratchBuildActivity extends AppCompatActivity {
         return Color.parseColor("#DC3A3A");
     }
 
-    private void finalizeBuild() {
+    /** Preload selectedParts from a saved build's {category: partId} JSON (edit mode). */
+    private void loadPartsFromJson(String partsJson) {
         try {
-            JSONObject json = new JSONObject();
-            for (Map.Entry<String, PartsCatalog.Part> entry : selectedParts.entrySet()) {
-                json.put(entry.getKey(), entry.getValue().id);   // {category: partId}
+            JSONObject json = new JSONObject(partsJson);
+            java.util.Iterator<String> keys = json.keys();
+            while (keys.hasNext()) {
+                String catId = keys.next();
+                String partId = json.getString(catId);
+                PartsCatalog.Part p = PartsRepository.findById(partId);
+                if (p != null) selectedParts.put(catId, p);
             }
-            Intent intent = new Intent(this, GeneratingBuildActivity.class);
-            intent.putExtra("budget",    budget);
-            intent.putExtra("buildMode", "scratch");
-            intent.putExtra("isGuest",   isGuest);
-            intent.putExtra("partsJson", json.toString());
-            startActivity(intent);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void finalizeBuild() {        try {
+        JSONObject json = new JSONObject();
+        for (Map.Entry<String, PartsCatalog.Part> entry : selectedParts.entrySet()) {
+            json.put(entry.getKey(), entry.getValue().id);   // {category: partId}
+        }
+        Intent intent = new Intent(this, GeneratingBuildActivity.class);
+        intent.putExtra("budget",    budget);
+        intent.putExtra("buildMode", "scratch");
+        intent.putExtra("isGuest",   isGuest);
+        intent.putExtra("partsJson", json.toString());
+        startActivity(intent);
+    } catch (JSONException e) {
+        e.printStackTrace();
+    }
     }
 
     // ── Save the current scratch build (name dialog → SQLite) ────────────────
@@ -382,12 +412,14 @@ public class ScratchBuildActivity extends AppCompatActivity {
 
         final android.widget.EditText input = new android.widget.EditText(this);
         input.setHint("e.g. My Gaming Build");
-        input.setText("Build " + (BuildsRepository.getBuildCount() + 1));
+        input.setText(editBuildName != null
+                ? editBuildName
+                : "Build " + (BuildsRepository.getBuildCount() + 1));
         int pad = dp(20);
         input.setPadding(pad, pad, pad, pad);
 
         new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("Name your build")
+                .setTitle(editBuildId != null ? "Save changes" : "Name your build")
                 .setView(input)
                 .setPositiveButton("Save", (dialog, which) -> saveBuild(input.getText().toString()))
                 .setNegativeButton("Cancel", null)
@@ -404,8 +436,14 @@ public class ScratchBuildActivity extends AppCompatActivity {
                 total += e.getValue().price;
                 count++;
             }
-            BuildsRepository.save(name, json.toString(), count, total, "scratch");
-            Toast.makeText(this, "✅ Build saved!", Toast.LENGTH_SHORT).show();
+            if (editBuildId != null) {
+                BuildsRepository.update(editBuildId, name, json.toString(), count, total, "scratch");
+                Toast.makeText(this, "✅ Build updated!", Toast.LENGTH_SHORT).show();
+                finish();   // back to the Builds list
+            } else {
+                BuildsRepository.save(name, json.toString(), count, total, "scratch");
+                Toast.makeText(this, "✅ Build saved!", Toast.LENGTH_SHORT).show();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(this, "Couldn't save the build.", Toast.LENGTH_SHORT).show();

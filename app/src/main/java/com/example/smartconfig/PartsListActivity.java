@@ -107,7 +107,6 @@ public class PartsListActivity extends AppCompatActivity {
             TextView tvSpec      = item.findViewById(R.id.tvPartSpec);
             TextView tvSponsored = item.findViewById(R.id.tvSponsored);
             TextView tvAdd       = item.findViewById(R.id.tvAddBtn);
-            TextView tv3D        = item.findViewById(R.id.tv3DBadge);
             ImageView imgThumb   = item.findViewById(R.id.imgPartThumb);
             TextView tvIcon      = item.findViewById(R.id.tvPartIcon);
 
@@ -129,7 +128,6 @@ public class PartsListActivity extends AppCompatActivity {
             tvSpec.setText(p.spec);
 
             tvSponsored.setVisibility(p.sponsored ? View.VISIBLE : View.GONE);
-            tv3D.setVisibility(p.has3d ? View.VISIBLE : View.GONE);
 
             boolean isAdded = p.id.equals(selectedPartId);
             updateAddButton(tvAdd, isAdded);

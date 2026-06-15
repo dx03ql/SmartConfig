@@ -11,7 +11,7 @@ import androidx.room.RoomDatabase;
  * Tables: parts (catalog) + builds (user's saved builds).
  * Bump `version` whenever the schema changes.
  */
-@Database(entities = {PartEntity.class, BuildEntity.class}, version = 3, exportSchema = false)
+@Database(entities = {PartEntity.class, BuildEntity.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract PartDao partDao();

@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                             setResult(RESULT_OK);
                             finish();
                         } else {
-                            startActivity(new Intent(this, BudgetActivity.class));
+                            startActivity(new Intent(this, ScratchBuildActivity.class));
                             finish();
                         }
                     })

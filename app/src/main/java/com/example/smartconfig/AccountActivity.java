@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AccountActivity extends AppCompatActivity {
+public class AccountActivity extends BaseActivity {
 
     private SharedPreferences prefs;
 
@@ -208,18 +208,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void setupSettings() {
-        findViewById(R.id.rowRegion).setOnClickListener(v ->
-                Toast.makeText(this, "Region settings — coming soon", Toast.LENGTH_SHORT).show()
-        );
-        findViewById(R.id.rowTheme).setOnClickListener(v ->
-                Toast.makeText(this, "Theme settings — coming soon", Toast.LENGTH_SHORT).show()
-        );
-        findViewById(R.id.rowNotifications).setOnClickListener(v ->
-                Toast.makeText(this, "Notification settings — coming soon", Toast.LENGTH_SHORT).show()
-        );
-        findViewById(R.id.rowFeedback).setOnClickListener(v ->
-                Toast.makeText(this, "Feedback — coming soon", Toast.LENGTH_SHORT).show()
-        );
+        // No preference rows currently.
     }
 
     private void confirmLogout() {

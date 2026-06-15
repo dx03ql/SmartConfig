@@ -16,6 +16,7 @@ public class BuildEntity {
     @NonNull
     public String id = "";
 
+    public String userId;      // owner: Firebase uid, or "guest"
     public String name;
     public long   createdAt;
     public String partsJson;   // {"cpu":"cpu_i5_12400f", ...}

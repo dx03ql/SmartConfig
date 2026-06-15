@@ -61,6 +61,12 @@ public class PartEntity {
 
     /** Convert a DB row back into the shared PartsCatalog.Part model. */
     public PartsCatalog.Part toCatalog() {
-        return PartsCatalog.Part.fromEntity(this);
+        PartsCatalog.Part p = PartsCatalog.Part.fromEntity(this);
+        // R.drawable IDs aren't stable across builds, so the imageRes stored in
+        // the DB can point at the wrong drawable after a rebuild. Always resolve
+        // the image from the current in-memory catalog by id.
+        PartsCatalog.Part src = PartsCatalog.findById(this.id);
+        p.imageRes = (src != null) ? src.imageRes : PartsCatalog.PLACEHOLDER_IMG;
+        return p;
     }
 }

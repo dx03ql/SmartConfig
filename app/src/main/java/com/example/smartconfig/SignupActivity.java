@@ -65,8 +65,7 @@ public class SignupActivity extends AppCompatActivity {
                         saveSession(email, name);
                         setLoading(false);
 
-                        Toast.makeText(this, "Account created!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(this, MainActivity.class));
+                        startActivity(new Intent(this, ScratchBuildActivity.class));
                         finish();
                     })
                     .addOnFailureListener(e -> {
